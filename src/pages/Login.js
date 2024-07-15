@@ -18,11 +18,23 @@ export default function Login() {
           <CustomInput placeholder="Password" type="password" />
           <button
             type="submit"
-            className="bg-zinc-700 rounded-full px-4 py-2 text-white mt-7"
+            className="bg-zinc-700 rounded-full px-4 py-2 text-white mt-7 w-1/3"
           >
             Login
           </button>
         </form>
+        <div className="flex items-center my-3">
+          <div className="border-b w-16 border-white" />
+          <div className="mx-4">OR</div>
+          <div className="border-b w-16 border-black" />
+        </div>
+
+        <p>
+          New user?{" "}
+          <a href="register" className="text-blue-600">
+            Create an account
+          </a>
+        </p>
       </div>
     </div>
   );
