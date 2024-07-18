@@ -3,12 +3,15 @@ import Login_bg from "../images/login_bg.jpg";
 import Logo from "../images/logo.jpg";
 import CustomInput from "../components/CustomInput";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+
+  const navigate = useNavigate();
 
   const registerUser = async (event) => {
     event.preventDefault();
@@ -17,7 +20,10 @@ export default function Register() {
         "http://localhost:3000/api/users/register",
         { name, username, password, email }
       );
-      console.log(response.data)
+      if (response.status === 201) {
+        navigate("/login");
+      }
+      console.log(response.data);
     } catch (error) {}
   };
 
