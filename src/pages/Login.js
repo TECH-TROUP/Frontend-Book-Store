@@ -1,31 +1,18 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import Login_bg from "../images/login.jpg";
 import Logo from "../images/logo.jpg";
 import CustomInput from "../components/CustomInput";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/userContext";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  const { login } = useUserContext();
 
   const signInUser = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        { username, password }
-      );
-      const { token } = response.data;
-      localStorage.setItem("token", token);
-
-      // Navigate to home
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+    login(username, password);
   };
 
   return (
