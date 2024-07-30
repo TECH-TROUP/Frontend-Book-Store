@@ -3,10 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 import authService from "../authentication/authService";
 import { useNavigate } from "react-router-dom";
 
-const userContext = createContext();
+const UserContext = createContext();
 
 export function useUserContext() {
-  return useContext(userContext);
+  return useContext(UserContext);
 }
 
 export const UserProvider = ({ children }) => {
@@ -36,4 +36,24 @@ export const UserProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  const register = async (name, username, password, email) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/users/register",
+        { name, username, password, email }
+      );
+      if (response.status === 201) {
+        navigate("/login");
+      }
+      console.log(response.data);
+    } catch (error) {}
+  };
+
+  const value = {
+    login,
+    register,
+  };
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

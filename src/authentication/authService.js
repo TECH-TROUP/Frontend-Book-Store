@@ -15,3 +15,5 @@ const authService = {
     return { headers: { Authorization: `Bearer ${this.getToken()}` } };
   },
 };
+
+export default authService;
