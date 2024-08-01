@@ -1,18 +1,25 @@
-import React, {  useState } from "react";
-import Login_bg from "../images/login.jpg";
-import Logo from "../images/logo.jpg";
+import React, { useEffect, useState } from "react";
+import Login_bg from "../assets/images/login_bg.jpg";
+import Logo from "../assets/images/logo.jpg";
 import CustomInput from "../components/CustomInput";
 import { useUserContext } from "../context/userContext";
+import { icons } from "../assets/icons/IconData";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const { login } = useUserContext();
 
   const signInUser = async (event) => {
     event.preventDefault();
-    login(username, password);
+    const response = await login(username, password);
+    if (response && response.error) {
+      setError(response.error);
+    } else {
+      setError(null);
+    }
   };
 
   return (
@@ -55,6 +62,20 @@ export default function Login() {
             Create an account
           </a>
         </p>
+
+        {error && (
+          <div className="flex flex-col items-center space-y-4 mt-4">
+            <div className="flex items-center my-3">
+              <div className="border-b w-44 border-black" />
+            </div>
+            <div className="text-white px-4 py-2 bg-red-500 rounded-xl text-sm flex w-full justify-between">
+              <div>{error}</div>
+              <div className="cursor-pointer" onClick={() => setError(null)}>
+                {icons.close}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
