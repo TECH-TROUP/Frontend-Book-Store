@@ -17,9 +17,22 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const token = authService.getToken();
     if (token) {
-      setUser({ token });
+      fetchUserData(token);
     }
   }, []);
+
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const login = async (username, password) => {
     try {
@@ -29,8 +42,7 @@ export const UserProvider = ({ children }) => {
       );
       const { token } = response.data;
       authService.setToken(token);
-
-      // Navigate to home
+      await fetchUserData(token);
       navigate("/");
     } catch (error) {
       return error.response.data;
