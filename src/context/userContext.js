@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
       // Navigate to home
       navigate("/");
     } catch (error) {
-      console.log(error);
+      return error.response.data;
     }
   };
 
@@ -47,11 +47,13 @@ export const UserProvider = ({ children }) => {
         navigate("/login");
       }
       console.log(response.data);
-    } catch (error) {}
+    } catch (error) {
+      return error.response.data;
+    }
   };
 
   const logout = () => {
-    authService.clearToken();
+    authService.removeToken();
     setUser(null);
     navigate("/login");
   };
