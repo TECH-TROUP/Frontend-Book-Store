@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Login_bg from "../assets/images/login_bg.jpg";
-import Logo from "../assets/images/logo.jpg";
+import Logo from "../assets/images/logo.png";
 import CustomInput from "../components/CustomInput";
 import { useUserContext } from "../context/userContext";
 import { icons } from "../assets/icons/IconData";
