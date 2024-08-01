@@ -50,9 +50,17 @@ export const UserProvider = ({ children }) => {
     } catch (error) {}
   };
 
+  const logout = () => {
+    authService.clearToken();
+    setUser(null);
+    navigate("/login");
+  };
+
   const value = {
+    user,
     login,
     register,
+    logout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
