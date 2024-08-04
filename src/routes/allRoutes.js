@@ -19,6 +19,7 @@ import VendorHome from "../pages/vendor/VendorHome";
 import VendorBooks from "../pages/vendor/VendorBooks";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminCategories from "../pages/admin/AdminCategories";
+import AdminBooks from "../pages/admin/AdminBooks";
 
 const RedirectToHomeIfAuthenticated = () => {
   const { user } = useUserContext();
@@ -71,6 +72,10 @@ export default function AllRoutes() {
 
                   <Route path="/admin/users" element={<AdminRoute />}>
                     <Route path="/admin/users" element={<AdminUsers />} />
+                  </Route>
+
+                  <Route path="/admin/books" element={<AdminRoute />}>
+                    <Route path="/admin/books" element={<AdminBooks />} />
                   </Route>
 
                   <Route path="/admin/categories" element={<AdminRoute />}>
