@@ -1,12 +1,30 @@
 import React from "react";
 import Logo from "../assets/images/logo.png";
 import { useUserContext } from "../context/userContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { icons } from "../assets/icons/IconData";
+
+const adminMenu = [
+  { label: "Home", url: "/admin/home" },
+  { label: "Products", url: "/admin/products" },
+  { label: "Users", url: "/admin/users" },
+  { label: "Orders", url: "/admin/orders" },
+  { label: "Reviews", url: "/admin/reviews" },
+  { label: "Categories", url: "/admin/categories" },
+];
+
+const customerMenu = [
+  { label: "Home", url: "/home" },
+  { label: "Books", url: "/books" },
+  { label: "Rentals", url: "/rentals" },
+];
+
+const vendorMenu = [{ label: "Home", url: "/vendor/home" }];
 
 export default function NavBar() {
   const { user, logout } = useUserContext();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleAuth = () => {
     if (user) {
@@ -18,20 +36,60 @@ export default function NavBar() {
 
   return (
     <div className="flex flex-row items-center text-white justify-between">
-      <div className="flex flex-row items-center w-1/5 space-x-10">
-        <img src={Logo} alt="Logo" className="rounded-full w-12 h-12" />
-        <h2 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight">
+      <div
+        onClick={() => navigate("/home")}
+        className="flex flex-row items-center w-1/5 space-x-10 cursor-pointer"
+      >
+        <img src={Logo} alt="Logo" className="rounded-full w-12 h-12 " />
+        <h2 className="text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight ">
           BOOK NEST
         </h2>
       </div>
-      <div className="w-1/5 flex rounded-2xl bg-white px-4 py-1.5 text-black">
-        <input className="w-full outline-none" placeholder="Search" />
-        {icons.search}
-      </div>
+      {!pathname.includes("/admin") && !pathname.includes("/vendor") && (
+        <div className="w-1/5 flex rounded-2xl bg-white px-4 py-1.5 text-black">
+          <input className="w-full outline-none" placeholder="Search" />
+          {icons.search}
+        </div>
+      )}
       <div className="flex flex-row items-center w-2/5 justify-center space-x-20 text-lg">
-        <div className="cursor-pointer">Home</div>
-        <div className="cursor-pointer">Books</div>
-        <div className="cursor-pointer">Rentals</div>
+        {pathname.includes("/admin")
+          ? adminMenu.map((menu, idx) => (
+              <div
+                key={idx}
+                className={`cursor-pointer py-1 px-4 ${
+                  pathname === menu.url &&
+                  "bg-purple-300/10 rounded-lg font-bold"
+                }`}
+                onClick={() => navigate(menu.url)}
+              >
+                {menu.label}
+              </div>
+            ))
+          : pathname.includes("/vendor")
+          ? vendorMenu.map((menu, idx) => (
+              <div
+                key={idx}
+                className={`cursor-pointer py-1 px-4 ${
+                  pathname === menu.url &&
+                  "bg-purple-300/10 rounded-lg font-bold"
+                }`}
+                onClick={() => navigate(menu.url)}
+              >
+                {menu.label}
+              </div>
+            ))
+          : customerMenu.map((menu, idx) => (
+              <div
+                key={idx}
+                className={`cursor-pointer py-1 px-4 ${
+                  pathname === menu.url &&
+                  "bg-purple-300/10 rounded-lg font-bold"
+                }`}
+                onClick={() => navigate(menu.url)}
+              >
+                {menu.label}
+              </div>
+            ))}
       </div>
 
       <div className="w-1/5 flex justify-end" onClick={handleAuth}>
