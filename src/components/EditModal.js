@@ -1,14 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const EditModal = ({ title, category, onClose, onSubmit, children }) => {
-  const [formData, setFormData] = useState(category);
-
-  useEffect(() => {
-    setFormData(category);
-  }, [category]);
-
-
-
+const EditModal = ({ title, onClose, onSubmit, children }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission to update the category
@@ -20,7 +12,7 @@ const EditModal = ({ title, category, onClose, onSubmit, children }) => {
       <div className="bg-purple-950 p-6 rounded-lg shadow-lg w-1/3">
         <h2 className="text-xl font-bold mb-4 text-left">{title}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-           {children}
+          {children}
           <div className="flex justify-end">
             <button
               type="button"
