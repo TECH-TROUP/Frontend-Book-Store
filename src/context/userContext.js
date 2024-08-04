@@ -11,6 +11,7 @@ export function useUserContext() {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -18,6 +19,8 @@ export const UserProvider = ({ children }) => {
     const token = authService.getToken();
     if (token) {
       fetchUserData(token);
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -29,8 +32,10 @@ export const UserProvider = ({ children }) => {
         },
       });
       setUser(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -77,5 +82,9 @@ export const UserProvider = ({ children }) => {
     logout,
   };
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>
+      {!loading && children}
+    </UserContext.Provider>
+  );
 };
