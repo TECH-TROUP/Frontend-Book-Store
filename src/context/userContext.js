@@ -33,6 +33,7 @@ export const UserProvider = ({ children }) => {
       });
       setUser(response.data);
       setLoading(false);
+      return response.data;
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -47,8 +48,14 @@ export const UserProvider = ({ children }) => {
       );
       const { token } = response.data;
       authService.setToken(token);
-      await fetchUserData(token);
-      navigate("/");
+      const userResponse = await fetchUserData(token);
+      if (userResponse.role_id === 1) {
+        navigate("/admin/home");
+      } else if (userResponse.role_id === 2) {
+        navigate("/home");
+      } else {
+        navigate("/vendor/home");
+      }
     } catch (error) {
       return error.response.data;
     }
