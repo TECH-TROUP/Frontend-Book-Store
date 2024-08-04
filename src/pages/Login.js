@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Login_bg from "../assets/images/login_bg.jpg";
 import Logo from "../assets/images/logo.png";
 import CustomInput from "../components/CustomInput";
