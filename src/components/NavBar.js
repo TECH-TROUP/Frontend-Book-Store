@@ -6,8 +6,8 @@ import { icons } from "../assets/icons/IconData";
 
 const adminMenu = [
   { label: "Home", url: "/admin/home" },
-  { label: "Products", url: "/admin/products" },
-  { label: "Users", url: "/admin/users" },
+  { label: "Books", url: "/admin/books" },
+  { label: "Users", url: "/admin/users?role=2" },
   { label: "Orders", url: "/admin/orders" },
   { label: "Reviews", url: "/admin/reviews" },
   { label: "Categories", url: "/admin/categories" },
@@ -19,7 +19,10 @@ const customerMenu = [
   { label: "Rentals", url: "/rentals" },
 ];
 
-const vendorMenu = [{ label: "Home", url: "/vendor/home" }];
+const vendorMenu = [
+  { label: "Home", url: "/vendor/home" },
+  { label: "Books", url: "/vendor/books" },
+];
 
 export default function NavBar() {
   const { user, logout } = useUserContext();
