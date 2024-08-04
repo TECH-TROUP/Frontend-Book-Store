@@ -22,6 +22,7 @@ export const UserProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, []);
 
   const fetchUserData = async (token) => {
