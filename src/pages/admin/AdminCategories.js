@@ -21,7 +21,7 @@ export default function AdminCategories() {
     fetchAllCategories();
   }, []);
 
-  const fetchAllCategories = async (tkn) => {
+  const fetchAllCategories = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/categories`,
@@ -123,7 +123,9 @@ export default function AdminCategories() {
     setSelectedCategory({ ...selectedCategory, [name]: value });
   };
 
-  return (
+  return loading ? (
+    <div></div>
+  ) : (
     <div className="flex flex-col space-y-4 text-white">
       <button
         className="p-2 bg-purple-300/10 rounded-lg hover:bg-purple-500/70 transition-colors duration-300"
@@ -224,7 +226,6 @@ export default function AdminCategories() {
       {isModalOpen && (
         <EditModal
           title="Edit Category"
-          category={selectedCategory}
           onClose={closeModal}
           onSubmit={updateCategory}
         >
