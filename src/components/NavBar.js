@@ -6,7 +6,7 @@ import { icons } from "../assets/icons/IconData";
 
 const adminMenu = [
   { label: "Home", url: "/admin/home" },
-  { label: "Books", url: "/admin/books" },
+  { label: "Books", url: "/admin/books?status=4" },
   { label: "Users", url: "/admin/users?role=2" },
   { label: "Orders", url: "/admin/orders" },
   { label: "Reviews", url: "/admin/reviews" },

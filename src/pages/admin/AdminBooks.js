@@ -2,49 +2,43 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import authService from "../../authentication/authService";
 import { icons } from "../../assets/icons/IconData";
+import { useSearchParams } from "react-router-dom";
+import StatusChip from "../../components/StatusChip";
 
 export default function AdminBooks() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const statusId = searchParams.get("status");
+
   useEffect(() => {
-    fetchAllBooks();
-    // fetchPendingBooks();
+    const initializeData = async () => {
+      setLoading(true);
+      await fetchAllBooks();
+      setLoading(false);
+    };
+
+    initializeData();
     // eslint-disable-next-line
-  }, []);
+  }, [statusId]);
 
   const fetchAllBooks = async () => {
+    setBooks([]);
     try {
-      const response = await axios.get(`http://localhost:3000/api/books`, {
-        headers: {
-          Authorization: `Bearer ${authService.getToken()}`,
-        },
-      });
+      const response = await axios.get(
+        `http://localhost:3000/api/books/status/${statusId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authService.getToken()}`,
+          },
+        }
+      );
       setBooks(response.data);
-      setLoading(false);
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+      console.log(error.response.data.error);
     }
   };
-
-  //   const fetchPendingBooks = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:3000/api/books/status/${1}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${authService.getToken()}`,
-  //           },
-  //         }
-  //       );
-  //       setBooks(response.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log(error);
-  //       setLoading(false);
-  //     }
-  //   };
 
   const deleteBook = async (id) => {
     try {
@@ -59,10 +53,174 @@ export default function AdminBooks() {
     }
   };
 
+  const updateBookStatus = async (bookId, statusId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/books/${bookId}/status`,
+        {
+          bookId,
+          statusId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authService.getToken()}`,
+          },
+        }
+      );
+      console.log("Book status updated successfully:", response.data);
+      fetchAllBooks();
+    } catch (error) {
+      console.error("Error updating book status:", error);
+    }
+  };
+
+  const approveBookStatus = async (bookId, numberOfCopies) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/books/approve`,
+        {
+          bookId,
+          numberOfCopies,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authService.getToken()}`,
+          },
+        }
+      );
+      console.log("Book status updated successfully:", response.data);
+      fetchAllBooks();
+    } catch (error) {
+      console.error("Error updating book status:", error);
+    }
+  };
+
   return loading ? (
     <div></div>
   ) : (
     <div className="text-white flex flex-col space-y-4">
+      <div className="flex space-x-4">
+        <div
+          onClick={() => setSearchParams({ status: 1 })}
+          className={`${
+            parseInt(statusId) === 1
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12  rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Pending Approval
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 2 })}
+          className={`${
+            parseInt(statusId) === 2
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Approved
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 3 })}
+          className={`${
+            parseInt(statusId) === 3
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Rejected
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 4 })}
+          className={`${
+            parseInt(statusId) === 4
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Available - Sale
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 5 })}
+          className={`${
+            parseInt(statusId) === 5
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Available - Rent
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 6 })}
+          className={`${
+            parseInt(statusId) === 6
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Checked-Out
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 7 })}
+          className={`${
+            parseInt(statusId) === 7
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Rented
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 8 })}
+          className={`${
+            parseInt(statusId) === 8
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Returned
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 9 })}
+          className={`${
+            parseInt(statusId) === 9
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Lost
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 10 })}
+          className={`${
+            parseInt(statusId) === 10
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Damaged
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 11 })}
+          className={`${
+            parseInt(statusId) === 11
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          In-Repair
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 12 })}
+          className={`${
+            parseInt(statusId) === 12
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Out-of-Stock
+        </div>
+      </div>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-200">
           <thead className="text-xs uppercase bg-gray-700 text-white">
@@ -125,25 +283,41 @@ export default function AdminBooks() {
                   )}
                 </td>
                 <td className={`px-6 py-4 w-1/12`}>
-                  <div
-                    className={`font-bold tracking-widest p-2 rounded-xl text-center ${value.status_bg_color} ${value.status_text_color}`}
-                  >
-                    {value.status_label.toUpperCase()}
-                  </div>
+                  <StatusChip id={value.status_id} label={value.status_label} />
                 </td>
                 <td className="px-6 py-3 w-1/5 space-x-4">
-                  <button
-                    onClick={() => deleteBook(value.id)}
-                    className="text-white py-1 px-2 rounded-lg bg-red-800 hover:bg-red-600 transition-colors duration-300 font-bold"
-                  >
-                    Delete
-                  </button>
+                  {parseInt(statusId) === 1 ? (
+                    <div className="flex space-x-4">
+                      <button
+                        onClick={() => approveBookStatus(value.id, value.stock)}
+                        className="text-white py-1 px-2 rounded-lg bg-green-800 hover:bg-green-600 transition-colors duration-300 font-bold"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => updateBookStatus(value.id, 3)}
+                        className="text-white py-1 px-2 rounded-lg bg-red-800 hover:bg-red-600 transition-colors duration-300 font-bold"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : parseInt(statusId) === 3 ? (
+                    <button
+                      onClick={() => deleteBook(value.id)}
+                      className="text-white py-1 px-2 rounded-lg bg-red-800 hover:bg-red-600 transition-colors duration-300 font-bold"
+                    >
+                      Delete
+                    </button>
+                  ) : (
+                    <div></div>
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {books.length === 0 && <div>No books with this status!</div>}
     </div>
   );
 }

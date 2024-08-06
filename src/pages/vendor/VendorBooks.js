@@ -5,6 +5,7 @@ import EditModal from "../../components/EditModal";
 import authService from "../../authentication/authService";
 import { icons } from "../../assets/icons/IconData";
 import { useUserContext } from "../../context/userContext";
+import StatusChip from "../../components/StatusChip";
 
 const initBook = {
   title: "",
@@ -16,6 +17,49 @@ const initBook = {
   image: null,
   vendor_id: null,
 };
+
+const statusOptions = [
+  {
+    value: 2,
+    label: "Approved",
+  },
+  {
+    value: 4,
+    label: "Available - Sale",
+  },
+  {
+    value: 5,
+    label: "Available - Rent",
+  },
+  {
+    value: 6,
+    label: "Checked-Out",
+  },
+  {
+    value: 7,
+    label: "Rented",
+  },
+  {
+    value: 8,
+    label: "Returned",
+  },
+  {
+    value: 9,
+    label: "Lost",
+  },
+  {
+    value: 10,
+    label: "Damaged",
+  },
+  {
+    value: 11,
+    label: "In-Repair",
+  },
+  {
+    value: 12,
+    label: "Out-of-Stock",
+  },
+];
 
 export default function VendorBooks() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,6 +182,11 @@ export default function VendorBooks() {
       // Generate image preview URL
       setImagePreview(previewUrl);
     } else {
+      if (name === "stock") {
+        if (value > 100) {
+          return;
+        }
+      }
       if (selectedBook) {
         setSelectedBook((prevState) => ({
           ...prevState,
@@ -214,6 +263,29 @@ export default function VendorBooks() {
     } catch (error) {
       console.error("Error updating book:", error);
       setError(error.response.data.error);
+    }
+  };
+
+  const handleStatusChange = async (selectedOption, bookId) => {
+    const statusId = selectedOption.value;
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/books/${bookId}/status`,
+        {
+          bookId,
+          statusId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authService.getToken()}`,
+          },
+        }
+      );
+      console.log("Book status updated successfully:", response.data);
+      fetchAllBooks();
+    } catch (error) {
+      console.error("Error updating book status:", error);
     }
   };
 
@@ -415,12 +487,40 @@ export default function VendorBooks() {
                     </div>
                   )}
                 </td>
-                <td className={`px-6 py-4 w-1/12`}>
-                  <div
-                    className={`font-bold tracking-widest p-2 rounded-xl text-center ${value.status_bg_color} ${value.status_text_color}`}
-                  >
-                    {value.status_label.toUpperCase()}
-                  </div>
+                <td className={`px-6 py-4 w-2/12`}>
+                  {value.status_id === 1 || value.status_id === 3 ? (
+                    <StatusChip
+                      id={value.status_id}
+                      label={value.status_label}
+                    />
+                  ) : (
+                    <div className="w-full max-w-md">
+                      <Select
+                        options={statusOptions}
+                        value={statusOptions.find(
+                          (status) => status.value === value.status_id
+                        )}
+                        onChange={(selOption) =>
+                          handleStatusChange(selOption, value.id)
+                        }
+                        placeholder="Select Status"
+                        classNamePrefix="react-select-status "
+                        styles={{
+                          control: (baseStyles, state) => ({
+                            ...baseStyles,
+                            fontWeight: "bold",
+                          }),
+                          menu: (baseStyles, state) => ({
+                            ...baseStyles,
+                            color: "black",
+                            fontWeight: "bold",
+                          }),
+                        }}
+                        menuPortalTarget={isModalOpen ? null : document.body}
+                        menuPosition="fixed"
+                      />
+                    </div>
+                  )}
                 </td>
                 <td className="px-6 py-3 w-1/5 space-x-4">
                   <button
