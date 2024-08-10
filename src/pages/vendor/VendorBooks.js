@@ -79,11 +79,7 @@ export default function VendorBooks() {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/books/vendor/${user.id}/status/${statusId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       setBooks(response.data);
       setLoading(false);

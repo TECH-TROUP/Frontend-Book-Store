@@ -31,11 +31,7 @@ export default function AdminBooks() {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/books/status/${statusId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       setBooks(response.data);
     } catch (error) {
@@ -64,11 +60,7 @@ export default function AdminBooks() {
           bookId,
           statusId,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       console.log("Book status updated successfully:", response.data);
       fetchAllBooks();
@@ -85,11 +77,7 @@ export default function AdminBooks() {
           bookId,
           numberOfCopies,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       console.log("Book status updated successfully:", response.data);
       fetchAllBooks();

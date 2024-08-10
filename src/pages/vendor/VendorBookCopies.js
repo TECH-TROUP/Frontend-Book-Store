@@ -60,11 +60,7 @@ export default function VendorBookCopies() {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/bookcopies/${bookId}/${statusId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       setBooks(response.data);
       setLoading(false);
@@ -90,11 +86,7 @@ export default function VendorBookCopies() {
           previousStatusId,
           bookId,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       console.log("Book status updated successfully:", response.data);
       fetchAllBooks();
@@ -107,11 +99,7 @@ export default function VendorBookCopies() {
     try {
       await axios.delete(
         `http://localhost:3000/api/bookCopies/${id}?bookId=${bookId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       fetchAllBooks();
     } catch (error) {

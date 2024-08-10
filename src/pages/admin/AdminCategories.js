@@ -56,11 +56,7 @@ export default function AdminCategories() {
           category_name: categoryName,
           description,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       console.log("Category created:", response.data);
       // Reset form or handle success as needed
@@ -81,11 +77,7 @@ export default function AdminCategories() {
           category_name: selectedCategory.category_name,
           description: selectedCategory.description,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       fetchAllCategories();
       setSelectedCategory(null);

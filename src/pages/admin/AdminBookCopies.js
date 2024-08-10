@@ -21,11 +21,7 @@ export default function AdminBookCopies() {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/bookcopies/${bookId}/${statusId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
+        authService.getAuthHeader()
       );
       setBooks(response.data);
       setLoading(false);
