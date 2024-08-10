@@ -1,12 +1,14 @@
 import React from "react";
 import Logo from "../assets/images/logo.png";
 import { useUserContext } from "../context/userContext";
+import { useCartContext } from "../context/cartContext";
+import { useWishlistContext } from "../context/wishlistContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { icons } from "../assets/icons/IconData";
 
 const adminMenu = [
   { label: "Home", url: "/admin/home" },
-  { label: "Books", url: "/admin/books?status=4" },
+  { label: "Books", url: "/admin/books?status=1" },
   { label: "Users", url: "/admin/users?role=2" },
   { label: "Orders", url: "/admin/orders" },
   { label: "Reviews", url: "/admin/reviews" },
@@ -16,7 +18,6 @@ const adminMenu = [
 const customerMenu = [
   { label: "Home", url: "/home" },
   { label: "Books", url: "/books" },
-  { label: "Rentals", url: "/rentals" },
 ];
 
 const vendorMenu = [
@@ -24,8 +25,16 @@ const vendorMenu = [
   { label: "Books", url: "/vendor/books" },
 ];
 
+const Badge = ({ number }) => (
+  <div className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+    {number}
+  </div>
+);
+
 export default function NavBar() {
   const { user, logout } = useUserContext();
+  const { cart } = useCartContext();
+  const { wishlist } = useWishlistContext();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -94,9 +103,37 @@ export default function NavBar() {
               </div>
             ))}
       </div>
-
-      <div className="w-1/5 flex justify-end" onClick={handleAuth}>
-        <button className="shadow-black border-slate-500 rounded-3xl p-1 border-2 w-1/3 hover:bg-purple-950 hover:border-purple-950">
+      <div className="w-1/5 flex justify-end items-center space-x-8">
+        {/* {user && (
+          <>
+            <div className="cursor-pointer">{icons.heart}</div>
+            <div className="cursor-pointer">{icons.shopping_cart}</div>
+          </>
+        )} */}
+        <div className="relative inline-flex items-center space-x-8">
+          {user && (
+            <>
+              <div
+                className="relative cursor-pointer"
+                onClick={() => navigate("/wishlist")}
+              >
+                {icons.heart}
+                {wishlist.length > 0 && <Badge number={wishlist.length} />}
+              </div>
+              <div
+                className="relative cursor-pointer"
+                onClick={() => navigate("/cart")}
+              >
+                {icons.shopping_cart}
+                {cart.length > 0 && <Badge number={cart.length} />}
+              </div>
+            </>
+          )}
+        </div>
+        <button
+          onClick={handleAuth}
+          className="shadow-black border-slate-500 rounded-3xl p-1 border-2 w-1/3 hover:bg-purple-950 hover:border-purple-950 transition-colors duration-300"
+        >
           {user ? "Logout" : "Login"}
         </button>
       </div>
