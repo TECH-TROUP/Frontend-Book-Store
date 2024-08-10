@@ -89,7 +89,7 @@ export default function AdminBooks() {
   return loading ? (
     <div></div>
   ) : (
-    <div className="text-white flex flex-col space-y-4">
+    <div className="flex flex-col h-[calc(100vh-140px)] space-y-4 text-white">
       <div className="flex space-x-4">
         <div
           onClick={() => setSearchParams({ status: 1 })}
@@ -132,7 +132,7 @@ export default function AdminBooks() {
           Out-of-Stock
         </div>
       </div>
-      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="flex-1 overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-200">
           <thead className="text-xs uppercase bg-gray-700 text-white">
             <tr>
