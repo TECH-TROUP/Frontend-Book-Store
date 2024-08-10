@@ -104,12 +104,6 @@ export default function NavBar() {
             ))}
       </div>
       <div className="w-1/5 flex justify-end items-center space-x-8">
-        {/* {user && (
-          <>
-            <div className="cursor-pointer">{icons.heart}</div>
-            <div className="cursor-pointer">{icons.shopping_cart}</div>
-          </>
-        )} */}
         <div className="relative inline-flex items-center space-x-8">
           {user && (
             <>
