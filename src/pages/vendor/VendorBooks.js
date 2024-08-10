@@ -235,7 +235,7 @@ export default function VendorBooks() {
   return loading ? (
     <div></div>
   ) : (
-    <div className="text-white flex flex-col space-y-4">
+    <div className="flex flex-col h-[calc(100vh-140px)] space-y-4 text-white">
       <button
         onClick={() => openModal(null)}
         className="p-2 bg-purple-300/10 rounded-lg hover:bg-purple-500/70 transition-colors duration-300"
@@ -451,10 +451,10 @@ export default function VendorBooks() {
             {books.map((value) => (
               <tr key={value.id}>
                 <td className="px-6 py-4">{value.id}</td>
-                <td className="px-6 py-4">{value.title}</td>
+                <td className="px-6 py-4 w-1/12">{value.title}</td>
                 <td className="px-6 py-4">{value.author}</td>
                 <td className="px-6 py-4">{value.price}</td>
-                <td className="px-6 py-4">{value.description}</td>
+                <td className="px-6 py-4 w-1/4">{value.description}</td>
                 <td className="px-6 py-4">{value.stock}</td>
                 <td className="px-6 py-4">{value.category_name}</td>
                 <td className="px-6 py-4 w-1/12">
@@ -475,7 +475,7 @@ export default function VendorBooks() {
                 <td className={`px-6 py-4 w-1/12`}>
                   <StatusChip id={value.status_id} label={value.status_label} />
                 </td>
-                <td className="px-6 py-3 space-x-4 w-1/12">
+                <td className="px-6 py-3 space-x-4 w-2/12">
                   <button
                     onClick={() => openModal(value)}
                     className="text-white py-1 px-2 rounded-lg bg-blue-800 hover:bg-blue-600 transition-colors duration-300 font-bold"
@@ -489,7 +489,7 @@ export default function VendorBooks() {
                     Delete
                   </button>
                 </td>
-                <td className={`px-6 py-4`}>
+                <td className={`px-6 py-4 w-1/12`}>
                   {(value.status_id === 2 || value.status_id === 13) && (
                     <div className="flex justify-center items-center">
                       <div
