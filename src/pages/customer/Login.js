@@ -4,6 +4,7 @@ import Logo from "../../assets/images/logo.png";
 import CustomInput from "../../components/CustomInput";
 import { useUserContext } from "../../context/userContext";
 import { icons } from "../../assets/icons/IconData";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState(null);
 
   const { login } = useUserContext();
+  const navigate = useNavigate();
 
   const signInUser = async (event) => {
     event.preventDefault();
@@ -62,6 +64,17 @@ export default function Login() {
             Create an account
           </a>
         </p>
+
+        <div className="flex items-center my-3">
+          <div className="border-b w-44 border-slate-500" />
+        </div>
+
+        <div
+          className="text-blue-900 cursor-pointer"
+          onClick={() => navigate("/home")}
+        >
+          Continue as guest!
+        </div>
 
         {error && (
           <div className="flex flex-col items-center space-y-4 mt-4">
