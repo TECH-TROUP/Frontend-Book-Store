@@ -187,9 +187,6 @@ export default function AdminCategories() {
               <th scope="col" className="px-6 py-3">
                 Description
               </th>
-              <th scope="col" className="px-6 py-3">
-                Count
-              </th>
               <th scope="col" className="px-6 py-3 ">
                 Actions
               </th>
@@ -201,7 +198,6 @@ export default function AdminCategories() {
                 <td className="px-6 py-4">{value.id}</td>
                 <td className="px-6 py-4">{value.category_name}</td>
                 <td className="px-6 py-4">{value.description}</td>
-                <td className="px-6 py-4">{value.count}</td>
                 <td className="px-6 py-3 w-1/5 space-x-4">
                   <button
                     onClick={() => openModal(value)}

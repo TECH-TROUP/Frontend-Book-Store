@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import authService from "../../authentication/authService";
 import { icons } from "../../assets/icons/IconData";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import StatusChip from "../../components/StatusChip";
 
 export default function AdminBooks() {
@@ -12,7 +12,11 @@ export default function AdminBooks() {
 
   const statusId = searchParams.get("status");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    setBooks([]);
+
     const initializeData = async () => {
       setLoading(true);
       await fetchAllBooks();
@@ -24,7 +28,6 @@ export default function AdminBooks() {
   }, [statusId]);
 
   const fetchAllBooks = async () => {
-    setBooks([]);
     try {
       const response = await axios.get(
         `http://localhost:3000/api/books/status/${statusId}`,
@@ -131,89 +134,9 @@ export default function AdminBooks() {
           Rejected
         </div>
         <div
-          onClick={() => setSearchParams({ status: 4 })}
-          className={`${
-            parseInt(statusId) === 4
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Available - Sale
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 5 })}
-          className={`${
-            parseInt(statusId) === 5
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Available - Rent
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 6 })}
-          className={`${
-            parseInt(statusId) === 6
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Checked-Out
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 7 })}
-          className={`${
-            parseInt(statusId) === 7
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Rented
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 8 })}
-          className={`${
-            parseInt(statusId) === 8
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Returned
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 9 })}
-          className={`${
-            parseInt(statusId) === 9
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Lost
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 10 })}
-          className={`${
-            parseInt(statusId) === 10
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          Damaged
-        </div>
-        <div
-          onClick={() => setSearchParams({ status: 11 })}
-          className={`${
-            parseInt(statusId) === 11
-              ? "font-bold bg-purple-700"
-              : "bg-purple-300/10"
-          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
-        >
-          In-Repair
-        </div>
-        <div
           onClick={() => setSearchParams({ status: 12 })}
           className={`${
-            parseInt(statusId) === 12
+            parseInt(statusId) === 13
               ? "font-bold bg-purple-700"
               : "bg-purple-300/10"
           } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
@@ -309,7 +232,14 @@ export default function AdminBooks() {
                       Delete
                     </button>
                   ) : (
-                    <div></div>
+                    <div className="flex justify-center items-center">
+                      <div
+                        onClick={() => navigate(`${value.id}?status=4`)}
+                        className="bg-green-700/80 rounded-3xl p-2 hover:bg-green-500 transition-colors duration-300 cursor-pointer"
+                      >
+                        {icons.arrow_right}
+                      </div>
+                    </div>
                   )}
                 </td>
               </tr>

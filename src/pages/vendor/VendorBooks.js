@@ -6,6 +6,7 @@ import authService from "../../authentication/authService";
 import { icons } from "../../assets/icons/IconData";
 import { useUserContext } from "../../context/userContext";
 import StatusChip from "../../components/StatusChip";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const initBook = {
   title: "",
@@ -18,49 +19,6 @@ const initBook = {
   vendor_id: null,
 };
 
-const statusOptions = [
-  {
-    value: 2,
-    label: "Approved",
-  },
-  {
-    value: 4,
-    label: "Available - Sale",
-  },
-  {
-    value: 5,
-    label: "Available - Rent",
-  },
-  {
-    value: 6,
-    label: "Checked-Out",
-  },
-  {
-    value: 7,
-    label: "Rented",
-  },
-  {
-    value: 8,
-    label: "Returned",
-  },
-  {
-    value: 9,
-    label: "Lost",
-  },
-  {
-    value: 10,
-    label: "Damaged",
-  },
-  {
-    value: 11,
-    label: "In-Repair",
-  },
-  {
-    value: 12,
-    label: "Out-of-Stock",
-  },
-];
-
 export default function VendorBooks() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -71,7 +29,11 @@ export default function VendorBooks() {
   const [error, setError] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const statusId = searchParams.get("status");
+
   const { user } = useUserContext();
+  const navigate = useNavigate();
 
   const openModal = (book) => {
     setIsModalOpen(true);
@@ -104,16 +66,24 @@ export default function VendorBooks() {
         vendor_id: user.id,
       }));
     }
-    fetchAllBooks();
     fetchAllCategories();
+  }, [user]);
+
+  useEffect(() => {
+    setBooks([]);
+    fetchAllBooks();
     // eslint-disable-next-line
-  }, []);
+  }, [statusId]);
 
   const fetchAllBooks = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/books/vendor/${user.id}`,
-        {}
+        `http://localhost:3000/api/books/vendor/${user.id}/status/${statusId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authService.getToken()}`,
+          },
+        }
       );
       setBooks(response.data);
       setLoading(false);
@@ -266,29 +236,6 @@ export default function VendorBooks() {
     }
   };
 
-  const handleStatusChange = async (selectedOption, bookId) => {
-    const statusId = selectedOption.value;
-
-    try {
-      const response = await axios.put(
-        `http://localhost:3000/api/books/${bookId}/status`,
-        {
-          bookId,
-          statusId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authService.getToken()}`,
-          },
-        }
-      );
-      console.log("Book status updated successfully:", response.data);
-      fetchAllBooks();
-    } catch (error) {
-      console.error("Error updating book status:", error);
-    }
-  };
-
   return loading ? (
     <div></div>
   ) : (
@@ -425,7 +372,48 @@ export default function VendorBooks() {
           )}
         </EditModal>
       )}
-
+      <div className="flex space-x-4">
+        <div
+          onClick={() => setSearchParams({ status: 1 })}
+          className={`${
+            parseInt(statusId) === 1
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12  rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Pending Approval
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 2 })}
+          className={`${
+            parseInt(statusId) === 2
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Approved
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 3 })}
+          className={`${
+            parseInt(statusId) === 3
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Rejected
+        </div>
+        <div
+          onClick={() => setSearchParams({ status: 13 })}
+          className={`${
+            parseInt(statusId) === 13
+              ? "font-bold bg-purple-700"
+              : "bg-purple-300/10"
+          } w-4/12 bg-purple-300/10 rounded-lg py-2 cursor-pointer hover:bg-purple-500/70 transition-colors duration-300`}
+        >
+          Out-of-Stock
+        </div>
+      </div>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-200">
           <thead className="text-xs uppercase bg-gray-700 text-white">
@@ -460,6 +448,7 @@ export default function VendorBooks() {
               <th scope="col" className="px-6 py-3 ">
                 Actions
               </th>
+              <th scope="col" />
             </tr>
           </thead>
           <tbody className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -487,42 +476,10 @@ export default function VendorBooks() {
                     </div>
                   )}
                 </td>
-                <td className={`px-6 py-4 w-2/12`}>
-                  {value.status_id === 1 || value.status_id === 3 ? (
-                    <StatusChip
-                      id={value.status_id}
-                      label={value.status_label}
-                    />
-                  ) : (
-                    <div className="w-full max-w-md">
-                      <Select
-                        options={statusOptions}
-                        value={statusOptions.find(
-                          (status) => status.value === value.status_id
-                        )}
-                        onChange={(selOption) =>
-                          handleStatusChange(selOption, value.id)
-                        }
-                        placeholder="Select Status"
-                        classNamePrefix="react-select-status "
-                        styles={{
-                          control: (baseStyles, state) => ({
-                            ...baseStyles,
-                            fontWeight: "bold",
-                          }),
-                          menu: (baseStyles, state) => ({
-                            ...baseStyles,
-                            color: "black",
-                            fontWeight: "bold",
-                          }),
-                        }}
-                        menuPortalTarget={isModalOpen ? null : document.body}
-                        menuPosition="fixed"
-                      />
-                    </div>
-                  )}
+                <td className={`px-6 py-4 w-1/12`}>
+                  <StatusChip id={value.status_id} label={value.status_label} />
                 </td>
-                <td className="px-6 py-3 w-1/5 space-x-4">
+                <td className="px-6 py-3 space-x-4 w-1/12">
                   <button
                     onClick={() => openModal(value)}
                     className="text-white py-1 px-2 rounded-lg bg-blue-800 hover:bg-blue-600 transition-colors duration-300 font-bold"
@@ -535,6 +492,18 @@ export default function VendorBooks() {
                   >
                     Delete
                   </button>
+                </td>
+                <td className={`px-6 py-4`}>
+                  {(value.status_id === 2 || value.status_id === 13) && (
+                    <div className="flex justify-center items-center">
+                      <div
+                        onClick={() => navigate(`${value.id}?status=4`)}
+                        className="bg-green-700/80 rounded-3xl p-2 hover:bg-green-500 transition-colors duration-300 cursor-pointer"
+                      >
+                        {icons.arrow_right}
+                      </div>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
