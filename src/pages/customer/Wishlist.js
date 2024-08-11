@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useWishlistContext } from "../../context/wishlistContext";
 import { useNavigate } from "react-router-dom";
 import { icons } from "../../assets/icons/IconData";
-import { useUserContext } from "../../context/userContext";
 import { useCartContext } from "../../context/cartContext";
 
 export default function Wishlist() {
@@ -11,7 +10,7 @@ export default function Wishlist() {
   const [loading, setLoading] = useState(true);
 
   // context
-  const { wishlist, fetchUserWishlist, addToWishlist, removeFromWishlist } =
+  const { wishlist, fetchUserWishlist, removeFromWishlist } =
     useWishlistContext();
   const { cart, addToCart, removeFromCart } = useCartContext();
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ export default function Wishlist() {
   // functions
   useEffect(() => {
     initializeData();
+    // eslint-disable-next-line
   }, []);
 
   const initializeData = async () => {
