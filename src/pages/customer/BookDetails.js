@@ -25,6 +25,7 @@ export default function BookDetails() {
 
   useEffect(() => {
     initializeData();
+    // eslint-disable-next-line
   }, []);
 
   const initializeData = async () => {
