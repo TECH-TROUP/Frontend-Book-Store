@@ -21,6 +21,7 @@ export const CartProvider = ({ children }) => {
     if (user) {
       fetchCart();
     } else {
+      setCart([]);
       setLoading(false);
     }
   }, [user]);

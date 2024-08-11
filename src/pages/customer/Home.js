@@ -85,7 +85,7 @@ export default function Home() {
     <>
       {!loading ? (
         <div className="text-white flex flex-col space-y-6">
-          <div className="relative">
+          <div className="relative min-h-[500px]">
             <img
               src={HomeBg}
               alt="background"
@@ -107,7 +107,7 @@ export default function Home() {
                     key={idx}
                     src={`http://localhost:3000${book.image_url}`}
                     alt={book.title}
-                    className={`object-cover h-72 w-48 rounded-lg hover:w-56 hover:h-80 transition-all duration-300 cursor-pointer`}
+                    className={`object-cover h-72 w-48 min-h-[18rem] min-w-[12rem] rounded-lg hover:w-56 hover:h-80 transition-all duration-300 cursor-pointer`}
                     onClick={() => navigate(`/books/${book.id}`)}
                   />
                 ))}
