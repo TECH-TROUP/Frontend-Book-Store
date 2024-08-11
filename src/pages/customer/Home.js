@@ -144,7 +144,6 @@ export default function Home() {
       ) : (
         <div>Loading...</div>
       )}
-      ;
       <LoginModal
         isVisible={showLoginModal}
         onClose={() => setShowLoginModal(false)}
