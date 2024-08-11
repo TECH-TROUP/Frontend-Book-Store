@@ -80,6 +80,20 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const updateAddress = async (address) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/api/users/update-address",
+        { address },
+        authService.getAuthHeader()
+      );
+      await fetchUserData(authService.getToken());
+      return response;
+    } catch (error) {
+      return error.response.data;
+    }
+  };
+
   const logout = () => {
     authService.removeToken();
     setUser(null);
@@ -91,6 +105,7 @@ export const UserProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateAddress,
   };
 
   return (
