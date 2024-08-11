@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { icons } from "../assets/icons/IconData";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,10 @@ export default function BookElement({
   imageDimensions,
 }) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(value);
+  }, []);
 
   return value.image_url ? (
     <div
@@ -45,11 +49,16 @@ export default function BookElement({
           >
             {isBookInWishlist ? icons.heart_red : icons.heart}
           </div>
-          <div
-            className="cursor-pointer"
-            onClick={() => onCartChange(value.id)}
-          >
-            {isBookInCart ? icons.check_circle : icons.shopping_cart}
+          {value.stock > 0 && (
+            <div
+              className="cursor-pointer"
+              onClick={() => onCartChange(value.id)}
+            >
+              {isBookInCart ? icons.check_circle : icons.shopping_cart}
+            </div>
+          )}
+          <div className="cursor-pointer">
+            {value.stock_rent > 0 && icons.currency_dollar}
           </div>
         </div>
       </div>
