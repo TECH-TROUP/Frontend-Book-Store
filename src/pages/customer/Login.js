@@ -31,7 +31,7 @@ export default function Login() {
     >
       <div className="bg-neutral-200 p-8 rounded-lg flex flex-col justify-center items-center w-1/4">
         <img src={Logo} alt="Logo" className="rounded-full w-24 h-24" />
-        <div className="my-6 text-2xl font-bold">LOGIN</div>
+        <div className="my-6 text-2xl font-bold text-black">LOGIN</div>
         <form onSubmit={signInUser}>
           <CustomInput
             placeholder="Username"
@@ -54,11 +54,11 @@ export default function Login() {
         </form>
         <div className="flex items-center my-3">
           <div className="border-b w-16 border-white" />
-          <div className="mx-4">OR</div>
+          <div className="mx-4 text-black">OR</div>
           <div className="border-b w-16 border-black" />
         </div>
 
-        <p>
+        <p className="text-black">
           New user?{" "}
           <a href="register" className="text-blue-600">
             Create an account
