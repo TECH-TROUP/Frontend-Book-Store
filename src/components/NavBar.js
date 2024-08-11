@@ -108,6 +108,15 @@ export default function NavBar() {
           {user && (
             <>
               <div
+                className={`cursor-pointer py-1 px-2 ${
+                  pathname === "/my-orders" &&
+                  "bg-purple-300/10 rounded-lg font-bold"
+                }`}
+                onClick={() => navigate("/my-orders")}
+              >
+                My Orders
+              </div>
+              <div
                 className="relative cursor-pointer"
                 onClick={() => navigate("/wishlist")}
               >
