@@ -9,15 +9,10 @@ export function useOrderContext() {
 }
 
 export const OrderProvider = ({ children }) => {
-  const createOrder = async (totalPrice, rating, comment) => {
+  const getOrderById = async (orderId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/reviews`,
-        {
-          bookId,
-          rating,
-          comment,
-        },
+      const response = await axios.get(
+        `http://localhost:3000/api/orders/${orderId}`,
         authService.getAuthHeader()
       );
       return response.data;
@@ -26,20 +21,8 @@ export const OrderProvider = ({ children }) => {
     }
   };
 
-  const getAllReviewsOfBook = async (bookId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/reviews/book/${bookId}`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error.response.data.error);
-    }
-  };
-
   const value = {
-    createReview,
-    getAllReviewsOfBook,
+    getOrderById,
   };
 
   return (
