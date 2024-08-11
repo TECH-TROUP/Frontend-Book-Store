@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
 
   return (
     <div
-      className={`flex flex-col h-screen bg-gradient-to-r from-purple-950 to-black space-y-6 ${
+      className={`flex flex-col h-screen bg-gradient-to-r from-purple-950 to-black space-y-6 text-white ${
         shouldApplyPadding ? "p-8" : ""
       } font-poiret`}
     >
