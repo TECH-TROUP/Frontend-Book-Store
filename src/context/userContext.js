@@ -36,6 +36,7 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
       return response.data;
     } catch (error) {
+      console.log(error);
       if (error.response.status === 401) {
         logout();
       }
