@@ -33,7 +33,7 @@ const RedirectToHomeIfAuthenticated = () => {
   const { user } = useUserContext();
 
   if (user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/home" />;
   }
 
   return <Outlet />;
