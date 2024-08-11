@@ -430,7 +430,10 @@ export default function VendorBooks() {
                 Description
               </th>
               <th scope="col" className="px-6 py-3 ">
-                Stock
+                Sale Stock
+              </th>
+              <th scope="col" className="px-6 py-3 ">
+                Rental Stock
               </th>
               <th scope="col" className="px-6 py-3 ">
                 Category
@@ -456,6 +459,7 @@ export default function VendorBooks() {
                 <td className="px-6 py-4">{value.price}</td>
                 <td className="px-6 py-4 w-1/4">{value.description}</td>
                 <td className="px-6 py-4">{value.stock}</td>
+                <td className="px-6 py-4">{value.stock_rent}</td>
                 <td className="px-6 py-4">{value.category_name}</td>
                 <td className="px-6 py-4 w-1/12">
                   {value.image_url ? (

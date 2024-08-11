@@ -155,6 +155,9 @@ export default function AdminBooks() {
                 Stock
               </th>
               <th scope="col" className="px-6 py-3 ">
+                Rental Stock
+              </th>
+              <th scope="col" className="px-6 py-3 ">
                 Category
               </th>
               <th scope="col" className="px-6 py-3 ">
@@ -177,6 +180,7 @@ export default function AdminBooks() {
                 <td className="px-6 py-4">{value.price}</td>
                 <td className="px-6 py-4">{value.description}</td>
                 <td className="px-6 py-4">{value.stock}</td>
+                <td className="px-6 py-4">{value.stock_rent}</td>
                 <td className="px-6 py-4">{value.category_name}</td>
                 <td className="px-6 py-4 w-1/12">
                   {value.image_url ? (
