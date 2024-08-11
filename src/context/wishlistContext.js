@@ -21,6 +21,7 @@ export const WishlistProvider = ({ children }) => {
     if (user) {
       fetchWishlist();
     } else {
+      setWishlist([]);
       setLoading(false);
     }
   }, [user]);
@@ -68,10 +69,23 @@ export const WishlistProvider = ({ children }) => {
     }
   };
 
+  const fetchUserWishlist = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/wishlist/user",
+        authService.getAuthHeader()
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching wishlist:", error.response.data.error);
+    }
+  };
+
   const value = {
     wishlist,
     addToWishlist,
     removeFromWishlist,
+    fetchUserWishlist,
   };
 
   return (
