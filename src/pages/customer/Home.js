@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../context/userContext";
 import { useBookContext } from "../../context/bookContext";
-import { icons } from "../../assets/icons/IconData";
 import HomeBg from "../../assets/images/home_bg.jpg";
 import { LoginModal } from "../../components/LoginModal";
 import { useWishlistContext } from "../../context/wishlistContext";
