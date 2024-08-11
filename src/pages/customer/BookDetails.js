@@ -7,6 +7,7 @@ import { useWishlistContext } from "../../context/wishlistContext";
 import { useUserContext } from "../../context/userContext";
 import { LoginModal } from "../../components/LoginModal";
 import Snackbar from "../../components/Snackbar";
+import ReviewsSection from "./components/ReviewsSection";
 
 export default function BookDetails() {
   // state
@@ -74,7 +75,7 @@ export default function BookDetails() {
 
   return book ? (
     <>
-      <div className="text-white flex flex-col space-y-4 px-80">
+      <div className="text-white flex flex-col h-[calc(100vh-150px)] space-y-4 px-80 flex-1 overflow-y-auto">
         <div className="flex space-x-4">
           <div className="w-3/12">
             {book.image_url ? (
@@ -99,10 +100,6 @@ export default function BookDetails() {
             <div className="text-xl text-left">
               {book.purchase_count} people bought this book
             </div>
-            <div className="text-xl text-left">
-              {book.rating_average} Rating
-            </div>
-            <div className="text-xl text-left">{book.review_count} Reviews</div>
             <button
               onClick={() => handleCartChange(book.id)}
               className={`p-2 rounded-xl transition-color duration-300 flex ${
@@ -132,6 +129,12 @@ export default function BookDetails() {
         <div className="bg-indigo-950/80 p-4 rounded-lg text-left">
           {book.description}
         </div>
+        <div className="text-left text-xl font-bold">Reviews</div>
+        <ReviewsSection
+          bookId={book.id}
+          averageRating={book.rating_average}
+          reviewCount={book.review_count}
+        />
       </div>
       <LoginModal
         isVisible={showLoginModal}

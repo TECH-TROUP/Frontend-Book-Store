@@ -28,6 +28,7 @@ import Books from "../pages/customer/Books";
 import BookDetails from "../pages/customer/BookDetails";
 import Cart from "../pages/customer/Cart";
 import Wishlist from "../pages/customer/Wishlist";
+import { ReviewProvider } from "../context/reviewContext";
 
 const RedirectToHomeIfAuthenticated = () => {
   const { user } = useUserContext();
@@ -46,110 +47,121 @@ export default function AllRoutes() {
         <BookProvider>
           <WishlistProvider>
             <CartProvider>
-              <Routes>
-                <Route
-                  path="/*"
-                  element={
-                    <Layout>
-                      <Routes>
-                        {/* Customer Routes */}
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/books" element={<Books />} />
-                        <Route
-                          path="/books/:bookId"
-                          element={<BookDetails />}
-                        />
-                        <Route path="/cart" element={<Cart />} />
-                        <Route path="/wishlist" element={<Wishlist />} />
-
-                        <Route
-                          path="/login"
-                          element={<RedirectToHomeIfAuthenticated />}
-                        >
-                          <Route path="/login" element={<Login />} />
-                        </Route>
-                        <Route
-                          path="/register"
-                          element={<RedirectToHomeIfAuthenticated />}
-                        >
-                          <Route path="/register" element={<Register />} />
-                        </Route>
-
-                        {/* Admin Routes */}
-
-                        {/* Redirect from /admin to /admin/home */}
-                        <Route path="/admin" element={<AdminRoute />}>
+              <ReviewProvider>
+                <Routes>
+                  <Route
+                    path="/*"
+                    element={
+                      <Layout>
+                        <Routes>
+                          {/* Customer Routes */}
+                          <Route path="/home" element={<Home />} />
+                          <Route path="/books" element={<Books />} />
                           <Route
-                            path="/admin"
-                            element={<Navigate to="/admin/home" />}
+                            path="/books/:bookId"
+                            element={<BookDetails />}
                           />
-                        </Route>
+                          <Route path="/cart" element={<Cart />} />
+                          <Route path="/wishlist" element={<Wishlist />} />
 
-                        <Route path="/admin/home" element={<AdminRoute />}>
-                          <Route path="/admin/home" element={<AdminHome />} />
-                        </Route>
+                          <Route
+                            path="/login"
+                            element={<RedirectToHomeIfAuthenticated />}
+                          >
+                            <Route path="/login" element={<Login />} />
+                          </Route>
+                          <Route
+                            path="/register"
+                            element={<RedirectToHomeIfAuthenticated />}
+                          >
+                            <Route path="/register" element={<Register />} />
+                          </Route>
 
-                        <Route path="/admin/users" element={<AdminRoute />}>
-                          <Route path="/admin/users" element={<AdminUsers />} />
-                        </Route>
+                          {/* Admin Routes */}
 
-                        <Route path="/admin/books" element={<AdminRoute />}>
-                          <Route path="/admin/books" element={<AdminBooks />} />
-                        </Route>
+                          {/* Redirect from /admin to /admin/home */}
+                          <Route path="/admin" element={<AdminRoute />}>
+                            <Route
+                              path="/admin"
+                              element={<Navigate to="/admin/home" />}
+                            />
+                          </Route>
 
-                        <Route
-                          path="/admin/books/:bookId"
-                          element={<AdminRoute />}
-                        >
+                          <Route path="/admin/home" element={<AdminRoute />}>
+                            <Route path="/admin/home" element={<AdminHome />} />
+                          </Route>
+
+                          <Route path="/admin/users" element={<AdminRoute />}>
+                            <Route
+                              path="/admin/users"
+                              element={<AdminUsers />}
+                            />
+                          </Route>
+
+                          <Route path="/admin/books" element={<AdminRoute />}>
+                            <Route
+                              path="/admin/books"
+                              element={<AdminBooks />}
+                            />
+                          </Route>
+
                           <Route
                             path="/admin/books/:bookId"
-                            element={<AdminBookCopies />}
-                          />
-                        </Route>
+                            element={<AdminRoute />}
+                          >
+                            <Route
+                              path="/admin/books/:bookId"
+                              element={<AdminBookCopies />}
+                            />
+                          </Route>
 
-                        <Route
-                          path="/admin/categories"
-                          element={<AdminRoute />}
-                        >
                           <Route
                             path="/admin/categories"
-                            element={<AdminCategories />}
-                          />
-                        </Route>
+                            element={<AdminRoute />}
+                          >
+                            <Route
+                              path="/admin/categories"
+                              element={<AdminCategories />}
+                            />
+                          </Route>
 
-                        {/* Vendor Routes */}
+                          {/* Vendor Routes */}
 
-                        {/* Redirect from /vendor to /vendor/home */}
-                        <Route
-                          path="/vendor"
-                          element={<Navigate to="/vendor/home" />}
-                        />
-
-                        <Route path="/vendor/home" element={<VendorRoute />}>
-                          <Route path="/vendor/home" element={<VendorHome />} />
-                        </Route>
-
-                        <Route path="/vendor/books" element={<VendorRoute />}>
+                          {/* Redirect from /vendor to /vendor/home */}
                           <Route
-                            path="/vendor/books"
-                            element={<VendorBooks />}
+                            path="/vendor"
+                            element={<Navigate to="/vendor/home" />}
                           />
-                        </Route>
 
-                        <Route
-                          path="/vendor/books/:bookId"
-                          element={<VendorRoute />}
-                        >
+                          <Route path="/vendor/home" element={<VendorRoute />}>
+                            <Route
+                              path="/vendor/home"
+                              element={<VendorHome />}
+                            />
+                          </Route>
+
+                          <Route path="/vendor/books" element={<VendorRoute />}>
+                            <Route
+                              path="/vendor/books"
+                              element={<VendorBooks />}
+                            />
+                          </Route>
+
                           <Route
                             path="/vendor/books/:bookId"
-                            element={<VendorBookCopies />}
-                          />
-                        </Route>
-                      </Routes>
-                    </Layout>
-                  }
-                />
-              </Routes>
+                            element={<VendorRoute />}
+                          >
+                            <Route
+                              path="/vendor/books/:bookId"
+                              element={<VendorBookCopies />}
+                            />
+                          </Route>
+                        </Routes>
+                      </Layout>
+                    }
+                  />
+                </Routes>
+              </ReviewProvider>
             </CartProvider>
           </WishlistProvider>
         </BookProvider>
