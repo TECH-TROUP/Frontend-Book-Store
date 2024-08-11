@@ -110,7 +110,7 @@ export default function VendorBookCopies() {
   return loading ? (
     <div></div>
   ) : (
-    <div className="flex flex-col h-[calc(100vh-140px)] space-y-4 text-white">
+    <div className="flex flex-col h-[calc(100vh-140px)] space-y-4">
       <div className="flex space-x-4">
         <div
           onClick={() => setSearchParams({ status: 4 })}
