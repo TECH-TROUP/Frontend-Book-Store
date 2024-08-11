@@ -19,7 +19,7 @@ export default function BookDetails() {
   const { bookId } = useParams();
   const { user } = useUserContext();
   const { getBookById } = useBookContext();
-  const { addToCart } = useCartContext();
+  const { addToCart, cart, removeFromCart } = useCartContext();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistContext();
 
   useEffect(() => {
@@ -49,8 +49,13 @@ export default function BookDetails() {
     if (!user) {
       setShowLoginModal(true);
     } else {
-      await addToCart(bookId, 1, "sale");
-      showSnackbar("Book added to cart!", "bg-green-700");
+      if (isBookInCart(bookId)) {
+        await removeFromCart(bookId);
+        showSnackbar("Book removed from cart!", "bg-yellow-700");
+      } else {
+        await addToCart(bookId, 1, "sale");
+        showSnackbar("Book added to cart!", "bg-green-700");
+      }
     }
   };
 
@@ -61,6 +66,10 @@ export default function BookDetails() {
 
   const isBookInWishlist = (bookId) => {
     return wishlist.includes(bookId);
+  };
+
+  const isBookInCart = (bookId) => {
+    return cart.includes(bookId);
   };
 
   return book ? (
@@ -96,9 +105,14 @@ export default function BookDetails() {
             <div className="text-xl text-left">{book.review_count} Reviews</div>
             <button
               onClick={() => handleCartChange(book.id)}
-              className="bg-green-600 p-2 rounded-xl hover:bg-green-800 transition-color duration-300 flex"
+              className={`p-2 rounded-xl transition-color duration-300 flex ${
+                isBookInCart(book.id)
+                  ? "bg-green-600 hover:bg-green-800"
+                  : "bg-blue-600 hover:bg-blue-900"
+              }`}
             >
-              {icons.shopping_cart}&nbsp;&nbsp;Add to Cart
+              {icons.shopping_cart}&nbsp;&nbsp;
+              {isBookInCart(book.id) ? "In Cart" : "Add to Cart"}
             </button>
             <button
               onClick={() => toggleWishlist(book.id)}
