@@ -10,14 +10,15 @@ const adminMenu = [
   { label: "Home", url: "/admin/home" },
   { label: "Books", url: "/admin/books?status=1" },
   { label: "Users", url: "/admin/users?role=2" },
-  { label: "Orders", url: "/admin/orders" },
-  { label: "Reviews", url: "/admin/reviews" },
   { label: "Categories", url: "/admin/categories" },
 ];
 
 const customerMenu = [
-  { label: "Home", url: "/home" },
-  { label: "Books", url: "/books" },
+  { label: "Home", url: "/home", role: null },
+  { label: "Books", url: "/books", role: null },
+  { label: "My Orders", url: "/my-orders?status=all", role: [1, 2, 3] },
+  { label: "Admin", url: "/admin/home", role: [1] },
+  { label: "Vendor", url: "/vendor/home", role: [3] },
 ];
 
 const vendorMenu = [
@@ -90,32 +91,41 @@ export default function NavBar() {
                 {menu.label}
               </div>
             ))
-          : customerMenu.map((menu, idx) => (
-              <div
-                key={idx}
-                className={`cursor-pointer py-1 px-4 ${
-                  pathname === menu.url &&
-                  "bg-purple-300/10 rounded-lg font-bold"
-                }`}
-                onClick={() => navigate(menu.url)}
-              >
-                {menu.label}
-              </div>
-            ))}
+          : customerMenu.map(
+              (menu, idx) =>
+                !menu.role ? (
+                  <div
+                    key={idx}
+                    className={`cursor-pointer py-1 px-4 ${
+                      pathname === menu.url &&
+                      "bg-purple-300/10 rounded-lg font-bold"
+                    }`}
+                    onClick={() => navigate(menu.url)}
+                  >
+                    {menu.label}
+                  </div>
+                ) : (
+                  user &&
+                  menu.role.includes(user.role_id) && (
+                    <div
+                      key={idx}
+                      className={`cursor-pointer py-1 px-4 ${
+                        pathname === menu.url &&
+                        "bg-purple-300/10 rounded-lg font-bold"
+                      }`}
+                      onClick={() => navigate(menu.url)}
+                    >
+                      {menu.label}
+                    </div>
+                  )
+                )
+              //   )
+            )}
       </div>
       <div className="w-1/5 flex justify-end items-center space-x-8">
         <div className="relative inline-flex items-center space-x-8">
           {user && (
             <>
-              <div
-                className={`cursor-pointer py-1 px-2 ${
-                  pathname === "/my-orders" &&
-                  "bg-purple-300/10 rounded-lg font-bold"
-                }`}
-                onClick={() => navigate("/my-orders")}
-              >
-                My Orders
-              </div>
               <div
                 className="relative cursor-pointer"
                 onClick={() => navigate("/wishlist")}
