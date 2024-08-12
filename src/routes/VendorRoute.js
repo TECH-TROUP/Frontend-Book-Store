@@ -1,17 +1,16 @@
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useUserContext } from "../context/userContext";
 
 const VendorRoute = () => {
   const { user } = useUserContext();
-  const navigate = useNavigate();
 
   if (!user) {
-    return navigate("/login");
+    return <Navigate to="/login" />;
   }
 
   if (user.role_id !== 3) {
-    return navigate("/home");
+    return <Navigate to="/home" />;
   }
 
   return <Outlet />;
