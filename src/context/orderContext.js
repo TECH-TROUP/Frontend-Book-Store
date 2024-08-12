@@ -21,8 +21,22 @@ export const OrderProvider = ({ children }) => {
     }
   };
 
+  const getOrdersByUserId = async (statusId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/user-orders`,
+        { statusId: statusId === "all" ? null : statusId },
+        authService.getAuthHeader()
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data.error);
+    }
+  };
+
   const value = {
     getOrderById,
+    getOrdersByUserId,
   };
 
   return (
