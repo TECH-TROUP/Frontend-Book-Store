@@ -61,6 +61,7 @@ export default function AllRoutes() {
                 <OrderProvider>
                   <Elements stripe={stripePromise}>
                     <Routes>
+                      <Route path="/" element={<Navigate to="/home" />} />
                       <Route
                         path="/*"
                         element={
