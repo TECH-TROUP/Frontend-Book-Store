@@ -21,8 +21,13 @@ export default function Cart() {
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
   // context
-  const { fetchUserCart, addToCart, updateQuantityInCart, removeFromCart } =
-    useCartContext();
+  const {
+    fetchCart,
+    fetchUserCart,
+    addToCart,
+    updateQuantityInCart,
+    removeFromCart,
+  } = useCartContext();
   const { user, updateAddress } = useUserContext();
   const navigate = useNavigate();
   const stripe = useStripe();
@@ -131,6 +136,7 @@ export default function Cart() {
 
           if (response.data.success) {
             // Navigate to order confirmation page
+            await fetchCart();
             navigate(`/order-confirmation/${response.data.orderId}`);
           }
         }
@@ -286,7 +292,7 @@ export default function Cart() {
                   <button
                     onClick={handleBuyNow}
                     disabled={paymentLoading}
-                    className="bg-black rounded-3xl w-full py-2 hover:bg-green-700 transition-color duration-300 font-bold flex justify-center items-center"
+                    className="bg-black rounded-3xl w-full py-2 hover:bg-green-700 transition-color duration-300 font-bold flex justify-center items-center active:bg-black"
                   >
                     <div>Buy Now</div>
                     {paymentLoading && (
