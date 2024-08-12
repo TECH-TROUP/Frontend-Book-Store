@@ -1,11 +1,14 @@
 Frontend
 Language: HTML, JS, CSS
 Framework: React
+Tailwind CSS
 
-## Available Scripts
+Before starting the website run
+### `npm install`
 
-In the project directory, you can run:
+Run the backend express app first before running the frontend website.
 
+To run the project
 ### `npm start`
 
 Runs the app in the development mode.\
