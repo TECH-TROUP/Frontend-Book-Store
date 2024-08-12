@@ -100,6 +100,7 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     updateQuantityInCart,
     fetchUserCart,
+    fetchCart,
   };
 
   return (
